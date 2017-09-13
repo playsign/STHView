@@ -43,17 +43,6 @@ var ambient_line = d3.line()
         return y(d.ambient);
     });
 
-var ambient_circle = d3.circle()
-    .cx(function(d) {
-        return cx(d.timestamp);
-    })
-    .cy(function(d) {
-        return cy(d.ambient);
-    })
-    .r(function(d){
-        return 5;
-    })
-
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -109,32 +98,6 @@ function draw(data, tempdata) {
         .data([data])
         .attr("class", "line low-threshold")
         .attr("d", low_threshold_line)
-
-    svg.selectAll("dot")
-        .data([data])
-        .enter().append("circle")
-        .attr("r", 5)
-        .attr("cx", function(d, i) {
-            console.log("your D: ", d)
-            return x(data[i].timestamp);
-        })
-        .attr("cy", function(d){
-            return y(data[i].tempprobe);
-        })
-        .on("mouseover", function(d){
-            div.transition()
-                .duration(200)
-                .style("opacity", .9);
-            div.html(formatTime(d.timestamp) + "<br />" + d.tempprobe + " °C")
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY) + "px");
-        })
-        .on("mouseout", function(d) {
-            div.transition()
-                .duration(500)
-                .style("opacity", 0);
-        });
-
 
 
     // add the X Axis
