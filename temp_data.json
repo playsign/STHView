@@ -1,0 +1,52 @@
+[{
+  "tempdata": [{
+      "tempprobe": 6.5,
+      "ambient": 12,
+      "timestamp": "2017-09-01 18:35:10",
+      "threshold_high": 8,
+      "threshold_low": 2
+    },
+    {
+      "tempprobe": 6.4,
+      "ambient": 24,
+      "timestamp": "2017-09-01 18:38:01",
+      "threshold_high": 8,
+      "threshold_low": 2
+    },
+    {
+      "tempprobe": 6.3,
+      "ambient": 23,
+      "timestamp": "2017-09-02 18:40:10",
+      "threshold_high": 8,
+      "threshold_low": 2
+    },
+    {
+      "tempprobe": 6.0,
+      "ambient": 20,
+      "timestamp": "2017-09-03 18:42:10",
+      "threshold_high": 8,
+      "threshold_low": 2
+    },
+    {
+      "tempprobe": 4.9,
+      "ambient": 15,
+      "timestamp": "2017-09-03 18:44:10",
+      "threshold_high": 8,
+      "threshold_low": 2
+    },
+    {
+      "tempprobe": 6.3,
+      "ambient": 22.1,
+      "timestamp": "2017-09-04 18:46:10",
+      "threshold_high": 8,
+      "threshold_low": 2
+    },
+    {
+      "tempprobe": 5.8,
+      "ambient": 21.1,
+      "timestamp": "2017-09-06 18:48:10",
+      "threshold_high": 8,
+      "threshold_low": 2
+    }
+  ]
+}]
