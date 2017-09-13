@@ -1,3 +1,4 @@
+
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
@@ -42,6 +43,7 @@ var ambient_line = d3.line()
     .y( function(d) {
         return y(d.ambient);
     });
+
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -100,6 +102,8 @@ function draw(data, tempdata) {
         .attr("d", low_threshold_line)
 
 
+
+
     // add the X Axis
     svg.append("g")
         .attr("transform", "translate(0,"+ height + ")")
@@ -111,7 +115,7 @@ function draw(data, tempdata) {
 
 }
 
-d3.json("temp_data.json",
+d3.json("http://localhost:8083/src/json/temp_data.json",
         function(error, data){
     if (error){
         console.log("an error has occurred in d3 JSON");
@@ -119,22 +123,3 @@ d3.json("temp_data.json",
     }
     draw(data[0], "tempdata");
 });
-
-
-// var tempdata = temp_data[0].tempdata;
-// var timestamp_column = ['time stamp'];
-// var temp_probe_columns = ['temp probe'];
-// var ambient_temp_columns = ['ambient temp'];
-// var threshold_high_columns = ['threshold high'];
-// var threshold_low_columns = ['threshold low'];
-
-
-// for (let i = 0; i < tempdata.length; i++){
-//     timestamp_column.push(tempdata[i].timestamp);
-//     temp_probe_columns.push(tempdata[i].tempprobe);
-//     ambient_temp_columns.push(tempdata[i].ambient);
-//     threshold_high_columns.push(tempdata[i].threshold_high);
-//     threshold_low_columns.push(tempdata[i].threshold_low);
-// }
-
-
