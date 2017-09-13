@@ -111,7 +111,7 @@ function draw(data, tempdata) {
 
 }
 
-d3.json("http://localhost:8083/src/json/temp_data.json",
+d3.json("temp_data.json",
         function(error, data){
     if (error){
         console.log("an error has occurred in d3 JSON");
