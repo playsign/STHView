@@ -1,0 +1,1 @@
+A graph that interprets IoT temperature device through time, tracking internal to a refrigerator and external to a refrigerator.
