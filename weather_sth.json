@@ -1,0 +1,72 @@
+{
+    "contextResponses": [
+        {
+            "contextElement": {
+                "attributes": [
+                    {
+                        "name": "temperature:ae68",
+                        "values": [
+                            {
+                                "recvTime": "2018-09-05T05:27:54.212Z",
+                                "attrType": "Number",
+                                "attrValue": "13"
+                            },
+                            {
+                                "recvTime": "2018-09-05T05:32:54.817Z",
+                                "attrType": "Number",
+                                "attrValue": "10"
+                            },
+                            {
+                                "recvTime": "2018-09-05T05:38:00.840Z",
+                                "attrType": "Number",
+                                "attrValue": "11"
+                            },
+                            {
+                                "recvTime": "2018-09-05T05:43:01.278Z",
+                                "attrType": "Number",
+                                "attrValue": "12"
+                            },
+                            {
+                                "recvTime": "2018-09-05T05:48:01.856Z",
+                                "attrType": "Number",
+                                "attrValue": "13"
+                            },
+                            {
+                                "recvTime": "2018-09-05T05:53:02.172Z",
+                                "attrType": "Number",
+                                "attrValue": "13"
+                            },
+                            {
+                                "recvTime": "2018-09-05T05:58:04.234Z",
+                                "attrType": "Number",
+                                "attrValue": "10"
+                            },
+                            {
+                                "recvTime": "2018-09-05T06:03:04.743Z",
+                                "attrType": "Number",
+                                "attrValue": "13"
+                            },
+                            {
+                                "recvTime": "2018-09-05T06:08:05.291Z",
+                                "attrType": "Number",
+                                "attrValue": "12"
+                            },
+                            {
+                                "recvTime": "2018-09-05T06:13:05.597Z",
+                                "attrType": "Number",
+                                "attrValue": "8"
+                            }
+                        ]
+                    }
+                ],
+                "id": "0e72",
+                "isPattern": false,
+                "type": "WeatherObserved"
+            },
+            "statusCode": {
+                "code": "200",
+                "reasonPhrase": "OK"
+            }
+        }
+    ]
+}

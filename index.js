@@ -5,10 +5,10 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
     height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
-// var parseTime = d3.utcParse("%Y-%m-%dT%H:%M:%SZ");
-var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
+var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
+//var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
 var formatTime = d3.timeFormat("%e %B");
-console.log(parseDate("2017-09-11 18:35:10"))
+console.log(parseDate("2018-09-05T05:27:54.212Z")); //2017-09-11 18:35:10"))
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
@@ -59,9 +59,9 @@ function draw(data, tempdata) {
 
     data.forEach(function(d, i) {
 
-        d.timestamp = parseDate(d.timestamp);
-        d.tempprobe = +d.tempprobe;
-        d.ambient = +d.ambient;
+        d.timestamp = parseDate(d.recvTime);
+        d.tempprobe = +d.attrValue;
+        d.ambient = +1 //d.ambient;
 
     });
 
@@ -91,7 +91,7 @@ function draw(data, tempdata) {
         .attr("class", "line ambient temperature")
         .attr("d", ambient_line);
 
-    svg.append("path")
+    /*svg.append("path")
         .data([data])
         .attr("class", "line high-threshold")
         .attr("d", high_threshold_line)
@@ -99,7 +99,7 @@ function draw(data, tempdata) {
     svg.append("path")
         .data([data])
         .attr("class", "line low-threshold")
-        .attr("d", low_threshold_line)
+        .attr("d", low_threshold_line)*/
 
 
 
@@ -115,11 +115,11 @@ function draw(data, tempdata) {
 
 }
 
-d3.json("temp_data.json",
+d3.json("weather_sth.json",
         function(error, data){
     if (error){
         console.log("an error has occurred in d3 JSON");
         throw error;
     }
-    draw(data[0], "tempdata");
+    draw(data["contextResponses"][0]["contextElement"]["attributes"][0], "values");
 });
