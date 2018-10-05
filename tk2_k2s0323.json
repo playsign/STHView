@@ -1,0 +1,72 @@
+{
+    "contextResponses": [
+        {
+            "contextElement": {
+                "attributes": [
+                    {
+                        "name": "tk03_te23",
+                        "values": [
+                            {
+                                "recvTime": "2018-10-05T07:32:41.332Z",
+                                "attrType": "Number",
+                                "attrValue": "22.7999992371"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:33:42.127Z",
+                                "attrType": "Number",
+                                "attrValue": "22.8999996185"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:34:42.914Z",
+                                "attrType": "Number",
+                                "attrValue": "22.8999996185"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:35:43.710Z",
+                                "attrType": "Number",
+                                "attrValue": "22.8999996185"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:36:48.451Z",
+                                "attrType": "Number",
+                                "attrValue": "22.7999992371"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:37:49.223Z",
+                                "attrType": "Number",
+                                "attrValue": "22.6000003815"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:38:49.992Z",
+                                "attrType": "Number",
+                                "attrValue": "22.5"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:39:54.796Z",
+                                "attrType": "Number",
+                                "attrValue": "22.6000003815"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:40:55.558Z",
+                                "attrType": "Number",
+                                "attrValue": "22.6000003815"
+                            },
+                            {
+                                "recvTime": "2018-10-05T07:41:56.362Z",
+                                "attrType": "Number",
+                                "attrValue": "22.6000003815"
+                            }
+                        ]
+                    }
+                ],
+                "id": "k2s0323",
+                "isPattern": false,
+                "type": "AirQualityObserved"
+            },
+            "statusCode": {
+                "code": "200",
+                "reasonPhrase": "OK"
+            }
+        }
+    ]
+}
