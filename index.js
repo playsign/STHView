@@ -61,7 +61,7 @@ function draw(data, tempdata) {
 
         d.timestamp = parseDate(d.recvTime);
         d.tempprobe = +d.attrValue;
-        d.ambient = +1 //d.ambient;
+        //d.ambient = +1 //d.ambient;
 
     });
 
@@ -75,9 +75,18 @@ function draw(data, tempdata) {
     x.domain(d3.extent(data, function(d){
         return d.timestamp;
     }));
-    y.domain([0, d3.max(data, function(d){
-        return Math.max(d.tempprobe, d.ambient);
-    })]);
+    /*y.domain([0, d3.max(data, function(d){
+        return d.tempprobe; //Math.max(d.tempprobe, d.ambient);
+    })]);*/
+    /*y.domain(d3.extent(data, function(d){
+        return d.tempprobe;
+    }));*/
+    //some margin to y, https://stackoverflow.com/questions/34888205/insert-padding-so-that-points-do-not-overlap-with-y-or-x-axis
+    // get extents and range
+    yExtent = d3.extent(data, function(d) { return d.tempprobe; }),
+                yRange = yExtent[1] - yExtent[0];
+    // set domain to be extent +- 5%
+    y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);
 
     // Add the tempprobe path.
     svg.append("path")
@@ -86,10 +95,10 @@ function draw(data, tempdata) {
         .attr("d", tempprobe_line);
 
     // Add the ambient path
-    svg.append("path")
+    /*svg.append("path")
         .data([data])
         .attr("class", "line ambient temperature")
-        .attr("d", ambient_line);
+        .attr("d", ambient_line);*/
 
     /*svg.append("path")
         .data([data])
@@ -101,9 +110,6 @@ function draw(data, tempdata) {
         .attr("class", "line low-threshold")
         .attr("d", low_threshold_line)*/
 
-
-
-
     // add the X Axis
     svg.append("g")
         .attr("transform", "translate(0,"+ height + ")")
@@ -112,14 +118,15 @@ function draw(data, tempdata) {
     // add the Y Axis
     svg.append("g")
         .call(d3.axisLeft(y));
-
 }
 
-d3.json("weather_sth.json",
-        function(error, data){
-    if (error){
-        console.log("an error has occurred in d3 JSON");
-        throw error;
-    }
-    draw(data["contextResponses"][0]["contextElement"]["attributes"][0], "values");
-});
+d3.json("tk2_k2s0323.json",
+//d3.json("http://pan0107.panoulu.net:8666/STH/v1/contextEntities/type/AirQualityObserved/id/k2s0323/attributes/tk03_te23?lastN=10",
+        function(error, data) {
+            if (error) {
+                console.log("an error has occurred in d3 JSON");
+                throw error;
+            }
+        draw(data["contextResponses"][0]["contextElement"]["attributes"][0], "values");
+        });
+        //}).header('Fiware-Service', 'tal').header('Fiware-ServicePath', '/f/2/202');
