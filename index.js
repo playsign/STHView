@@ -121,11 +121,23 @@ function draw(data, tempdata) {
         .call(d3.axisLeft(y));
 }
 
-function updateDataView() {
+function updateDataView(start_date, end_date) {
+    //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
+    var url = "https://playsign-151522.appspot.com/sth?"; //we append params here
+    var id = "tk03_te23";
+    url += `id=${id}`;
+
+    if (start_date) {
+        var start_string = start_date.toISOString();
+        var end_string = end_date.toISOString();
+
+        url += `&dateFrom=${start_string}&dateTo=${end_string}`
+    }
+
     //d3.json("tk2_k2s0323.json",
     //d3.json("http://pan0107.panoulu.net:8666/STH/v1/contextEntities/type/AirQualityObserved/id/k2s0323/attributes/tk03_te23?lastN=10",
     //d3.json("https://playsign-151522.appspot.com/sth?id=weather",
-    d3.json("https://playsign-151522.appspot.com/sth?id=tk03_te23",    
+    d3.json(url,
         function(error, data) {
             if (error) {
                 console.log("an error has occurred in d3 JSON");
@@ -135,5 +147,25 @@ function updateDataView() {
         });
         //}).header('Fiware-Service', 'tal').header('Fiware-ServicePath', '/f/2/202');
 }
+
+var gettime = document.getElementById("gettime")
+
+function dateFromInput(prefix) {
+    var date = document.getElementById(prefix + "_date").value;
+    var time = document.getElementById(prefix + "_time").value;
+
+    var datetime = new Date(date + " " + time);
+    return datetime;
+}
+
+gettime.addEventListener("click", function() {
+    var start_date = dateFromInput("start");
+    var end_date = dateFromInput("end");    
+
+    updateDataView(start_date, end_date);
+    
+    //console.log()
+})
+
 
 updateDataView();
