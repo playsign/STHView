@@ -124,8 +124,8 @@ function draw(data, tempdata) {
 function updateDataView() {
     //d3.json("tk2_k2s0323.json",
     //d3.json("http://pan0107.panoulu.net:8666/STH/v1/contextEntities/type/AirQualityObserved/id/k2s0323/attributes/tk03_te23?lastN=10",
-    d3.json("https://playsign-151522.appspot.com/sth?id=weather",
-    //d3.json("https://playsign-151522.appspot.com/sth?id=tk03_te23",    
+    //d3.json("https://playsign-151522.appspot.com/sth?id=weather",
+    d3.json("https://playsign-151522.appspot.com/sth?id=tk03_te23",    
         function(error, data) {
             if (error) {
                 console.log("an error has occurred in d3 JSON");
