@@ -89,6 +89,9 @@ function draw(data, tempdata) {
     y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);
     //y.domain([0, 20]);
 
+    //clear drawing in case there was previous. NOTE: might be interesting to draw multiple for comparisons somehow
+    svg.selectAll("*").remove();
+
     // Add the tempprobe path.
     svg.append("path")
         .data([data])
@@ -124,7 +127,13 @@ function draw(data, tempdata) {
 function updateDataView(start_date, end_date) {
     //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
     var url = "https://playsign-151522.appspot.com/sth?"; //we append params here
-    var id = "tk03_te23";
+
+    var id = "202"; //tk03_te23";
+    var playsignParams = new URLSearchParams(location.search.slice(1));
+    var playsignRoomCode = playsignParams.get("roomcode");
+    if (playsignRoomCode)
+        id = playsignRoomCode;
+
     url += `id=${id}`;
 
     if (start_date) {
@@ -143,7 +152,7 @@ function updateDataView(start_date, end_date) {
                 console.log("an error has occurred in d3 JSON");
                 throw error;
             }
-        draw(data["contextResponses"][0]["contextElement"]["attributes"][0], "values");
+            draw(data["contextResponses"][0]["contextElement"]["attributes"][0], "values");
         });
         //}).header('Fiware-Service', 'tal').header('Fiware-ServicePath', '/f/2/202');
 }
@@ -167,5 +176,4 @@ gettime.addEventListener("click", function() {
     //console.log()
 })
 
-
-updateDataView();
+updateDataView(); //playsignRoomName);
