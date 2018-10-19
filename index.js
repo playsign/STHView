@@ -133,8 +133,13 @@ function updateDataView(start_date, end_date) {
     var playsignRoomCode = playsignParams.get("roomcode");
     if (playsignRoomCode)
         id = playsignRoomCode;
-
     url += `id=${id}`;
+
+    var dataType = "t";
+    var playsignDataType = playsignParams.get("datatype");
+    if (playsignDataType)
+        dataType = playsignDataType;
+    url += `&datatype=${dataType}`;
 
     if (start_date) {
         var start_string = start_date.toISOString();
