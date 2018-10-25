@@ -120,19 +120,23 @@ function drawRaw(vals) {
 }
 
 function drawAggr(vals) {
-    var data = vals[0]["points"];
+    const data1 = vals[0]["points"];
+    const data2 = vals[1]["points"];
+    const data = data1.concat(data2);
 
     data.forEach(function(d, i) {
         d.timestamp = d.offset;
+        if (i > 24)
+            d.timestamp += 24;
         d.tempprobe = d.max;
         d.ambient = 21.20 + (i / 24);
     });
 
     console.log(data);
 
-    /*data.sort(function(a, b){
+    data.sort(function(a, b){
         return a["timestamp"]-b["timestamp"];
-    });*/
+    });
 
     // scale the range of data
     x.domain(d3.extent(data, function(d){
@@ -267,8 +271,10 @@ end_date.value = today;
 
 var start_time = document.getElementById("start_time");
 var end_time = document.getElementById("end_time");
-start_time.value = "08:00"
-end_time.value = "16:00"
+//start_time.value = "08:00"
+//end_time.value = "16:00"
+start_time.value = "00:00"
+end_time.value = "23:59"
 
 function dateFromInput(prefix) {
     var date = document.getElementById(prefix + "_date").value;
