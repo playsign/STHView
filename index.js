@@ -161,23 +161,30 @@ function drawAggr(vals) {
         .call(d3.axisLeft(y));
 }
 
+function makeUrl(roomCode, dataType, start_string, end_string) {
+    var url = "http://localhost:8080/sth?";
+    //var url = "https://playsign-151522.appspot.com/sth?";
+    url += `id=${roomCode}`;
+    url += `&datatype=${dataType}`;
+    if (start_string) {
+        url += `&dateFrom=${start_string}&dateTo=${end_string}`;
+    }
+    console.log(url);
+    return url;
+}
+
 queryHandler = {
     "raw": [
-        function(roomCode, dataType, start_string, end_string) {
-            var url = "https://playsign-151522.appspot.com/sth?";
-            url += `id=${roomCode}`;
-            url += `&datatype=${dataType}`;
-            if (start_string) {
-                url += `&dateFrom=${start_string}&dateTo=${end_string}`;
-            }
-            console.log(url);
-            return url;
-        }, 
+        makeUrl, 
         drawRaw
     ],
     "aggr": [
-        function() {
-            return "weektemp.json";
+        function(roomCode, dataType, start_string, end_string) {
+            var url = makeUrl(roomCode, dataType, start_string, end_string);
+            url += `&querytype=aggr`;
+            //maybe we should have the comet params here, and not this self invented one that is passed to the proxy
+            //the backend / proxy does however helpful work in mapping the room codes to the sensor naming pattern
+            return url;
         },
         drawAggr
     ]
@@ -230,6 +237,30 @@ function updateDataView(start_date, end_date) {
 
 var gettime = document.getElementById("gettime")
 
+function nowDate(dayOffset) {
+    var now = new Date();
+    var daynum = now.getDate();
+    now.setDate(daynum + dayOffset);
+ 
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day);
+    return today;
+}
+
+var start_date = document.getElementById("start_date");
+var end_date = document.getElementById("end_date");
+var today = nowDate(0);
+var yesterday = nowDate(-1);
+start_date.value = yesterday;
+end_date.value = today;
+
+var start_time = document.getElementById("start_time");
+var end_time = document.getElementById("end_time");
+start_time.value = "08:00"
+end_time.value = "16:00"
+
 function dateFromInput(prefix) {
     var date = document.getElementById(prefix + "_date").value;
     var time = document.getElementById(prefix + "_time").value;
@@ -238,13 +269,13 @@ function dateFromInput(prefix) {
     return datetime;
 }
 
-gettime.addEventListener("click", function() {
+function updateWithDateRange() {
     var start_date = dateFromInput("start");
     var end_date = dateFromInput("end");    
 
     updateDataView(start_date, end_date);
-    
-    //console.log()
-})
+}
 
-updateDataView();
+gettime.addEventListener("click", updateWithDateRange);
+
+updateWithDateRange();
