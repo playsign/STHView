@@ -125,13 +125,14 @@ function drawAggr(vals) {
     data.forEach(function(d, i) {
         d.timestamp = d.offset;
         d.tempprobe = d.max;
+        d.ambient = 21.20 + (i / 24);
     });
 
     console.log(data);
 
-    data.sort(function(a, b){
+    /*data.sort(function(a, b){
         return a["timestamp"]-b["timestamp"];
-    });
+    });*/
 
     // scale the range of data
     x.domain(d3.extent(data, function(d){
@@ -151,10 +152,18 @@ function drawAggr(vals) {
         .attr("class", "line temp-probe temperature")
         .attr("d", tempprobe_line);
 
+    // Add the ambient path
+    svg.append("path")
+        .data([data])
+        .attr("class", "line ambient temperature")
+        .attr("d", ambient_line);
+
     // add the X Axis
     svg.append("g")
         .attr("transform", "translate(0,"+ height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x)
+                .tickFormat(d3.format(",.0f"))
+                );
 
     // add the Y Axis
     svg.append("g")
