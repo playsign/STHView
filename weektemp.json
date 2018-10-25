@@ -1,0 +1,492 @@
+{
+    "contextResponses": [
+        {
+            "contextElement": {
+                "attributes": [
+                    {
+                        "name": "tk03_te23",
+                        "values": [
+                            {
+                                "_id": {
+                                    "origin": "2018-10-15T00:00:00.000Z",
+                                    "resolution": "hour"
+                                },
+                                "points": [
+                                    {
+                                        "offset": 8,
+                                        "samples": 56,
+                                        "max": 22.8999996185
+                                    },
+                                    {
+                                        "offset": 9,
+                                        "samples": 57,
+                                        "max": 22.3999996185
+                                    },
+                                    {
+                                        "offset": 10,
+                                        "samples": 57,
+                                        "max": 22.6000003815
+                                    },
+                                    {
+                                        "offset": 11,
+                                        "samples": 57,
+                                        "max": 22.2999992371
+                                    },
+                                    {
+                                        "offset": 12,
+                                        "samples": 56,
+                                        "max": 22.1000003815
+                                    },
+                                    {
+                                        "offset": 13,
+                                        "samples": 57,
+                                        "max": 22.1000003815
+                                    },
+                                    {
+                                        "offset": 14,
+                                        "samples": 58,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 15,
+                                        "samples": 59,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 16,
+                                        "samples": 58,
+                                        "max": 21.7000007629
+                                    },
+                                    {
+                                        "offset": 17,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 18,
+                                        "samples": 57,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 19,
+                                        "samples": 57,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 20,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 21,
+                                        "samples": 58,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 22,
+                                        "samples": 59,
+                                        "max": 21.7000007629
+                                    },
+                                    {
+                                        "offset": 23,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    }
+                                ]
+                            },
+                            {
+                                "_id": {
+                                    "origin": "2018-10-16T00:00:00.000Z",
+                                    "resolution": "hour"
+                                },
+                                "points": [
+                                    {
+                                        "offset": 0,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 1,
+                                        "samples": 60,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 2,
+                                        "samples": 59,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 3,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 4,
+                                        "samples": 58,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 5,
+                                        "samples": 56,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 6,
+                                        "samples": 57,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 7,
+                                        "samples": 57,
+                                        "max": 22.5
+                                    },
+                                    {
+                                        "offset": 8,
+                                        "samples": 56,
+                                        "max": 22.5
+                                    },
+                                    {
+                                        "offset": 9,
+                                        "samples": 55,
+                                        "max": 23
+                                    },
+                                    {
+                                        "offset": 10,
+                                        "samples": 56,
+                                        "max": 22.3999996185
+                                    },
+                                    {
+                                        "offset": 11,
+                                        "samples": 57,
+                                        "max": 22.2000007629
+                                    },
+                                    {
+                                        "offset": 12,
+                                        "samples": 56,
+                                        "max": 22.3999996185
+                                    },
+                                    {
+                                        "offset": 13,
+                                        "samples": 57,
+                                        "max": 22.1000003815
+                                    },
+                                    {
+                                        "offset": 14,
+                                        "samples": 58,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 15,
+                                        "samples": 57,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 16,
+                                        "samples": 59,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 17,
+                                        "samples": 58,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 18,
+                                        "samples": 59,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 19,
+                                        "samples": 58,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 20,
+                                        "samples": 57,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 21,
+                                        "samples": 59,
+                                        "max": 21.5
+                                    },
+                                    {
+                                        "offset": 22,
+                                        "samples": 56,
+                                        "max": 21.7000007629
+                                    },
+                                    {
+                                        "offset": 23,
+                                        "samples": 56,
+                                        "max": 21.7999992371
+                                    }
+                                ]
+                            },
+                            {
+                                "_id": {
+                                    "origin": "2018-10-17T00:00:00.000Z",
+                                    "resolution": "hour"
+                                },
+                                "points": [
+                                    {
+                                        "offset": 0,
+                                        "samples": 59,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 1,
+                                        "samples": 55,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 2,
+                                        "samples": 58,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 3,
+                                        "samples": 54,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 4,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 5,
+                                        "samples": 54,
+                                        "max": 21.7000007629
+                                    },
+                                    {
+                                        "offset": 6,
+                                        "samples": 57,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 7,
+                                        "samples": 57,
+                                        "max": 22.2000007629
+                                    },
+                                    {
+                                        "offset": 8,
+                                        "samples": 56,
+                                        "max": 22.6000003815
+                                    },
+                                    {
+                                        "offset": 9,
+                                        "samples": 56,
+                                        "max": 22.6000003815
+                                    },
+                                    {
+                                        "offset": 10,
+                                        "samples": 57,
+                                        "max": 22.6000003815
+                                    },
+                                    {
+                                        "offset": 11,
+                                        "samples": 57,
+                                        "max": 22.2999992371
+                                    },
+                                    {
+                                        "offset": 12,
+                                        "samples": 55,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 13,
+                                        "samples": 58,
+                                        "max": 22.2000007629
+                                    },
+                                    {
+                                        "offset": 14,
+                                        "samples": 58,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 15,
+                                        "samples": 58,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 16,
+                                        "samples": 59,
+                                        "max": 21.6000003815
+                                    },
+                                    {
+                                        "offset": 17,
+                                        "samples": 56,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 18,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 19,
+                                        "samples": 57,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 20,
+                                        "samples": 58,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 21,
+                                        "samples": 58,
+                                        "max": 21.7000007629
+                                    },
+                                    {
+                                        "offset": 22,
+                                        "samples": 58,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 23,
+                                        "samples": 57,
+                                        "max": 21.8999996185
+                                    }
+                                ]
+                            },
+                            {
+                                "_id": {
+                                    "origin": "2018-10-18T00:00:00.000Z",
+                                    "resolution": "hour"
+                                },
+                                "points": [
+                                    {
+                                        "offset": 0,
+                                        "samples": 59,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 1,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 2,
+                                        "samples": 57,
+                                        "max": 21.7000007629
+                                    },
+                                    {
+                                        "offset": 3,
+                                        "samples": 59,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 4,
+                                        "samples": 57,
+                                        "max": 21.7999992371
+                                    },
+                                    {
+                                        "offset": 5,
+                                        "samples": 56,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 6,
+                                        "samples": 57,
+                                        "max": 22.2000007629
+                                    },
+                                    {
+                                        "offset": 7,
+                                        "samples": 56,
+                                        "max": 22.3999996185
+                                    },
+                                    {
+                                        "offset": 8,
+                                        "samples": 56,
+                                        "max": 23
+                                    },
+                                    {
+                                        "offset": 9,
+                                        "samples": 53,
+                                        "max": 22.6000003815
+                                    },
+                                    {
+                                        "offset": 10,
+                                        "samples": 53,
+                                        "max": 22.7999992371
+                                    }
+                                ]
+                            },
+                            {
+                                "_id": {
+                                    "origin": "2018-10-19T00:00:00.000Z",
+                                    "resolution": "hour"
+                                },
+                                "points": [
+                                    {
+                                        "offset": 6,
+                                        "samples": 40,
+                                        "max": 22.1000003815
+                                    },
+                                    {
+                                        "offset": 7,
+                                        "samples": 57,
+                                        "max": 22.5
+                                    },
+                                    {
+                                        "offset": 8,
+                                        "samples": 57,
+                                        "max": 22.5
+                                    },
+                                    {
+                                        "offset": 9,
+                                        "samples": 54,
+                                        "max": 22.5
+                                    },
+                                    {
+                                        "offset": 10,
+                                        "samples": 57,
+                                        "max": 22.1000003815
+                                    },
+                                    {
+                                        "offset": 11,
+                                        "samples": 58,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 12,
+                                        "samples": 58,
+                                        "max": 22.2000007629
+                                    },
+                                    {
+                                        "offset": 13,
+                                        "samples": 58,
+                                        "max": 22.2000007629
+                                    },
+                                    {
+                                        "offset": 14,
+                                        "samples": 58,
+                                        "max": 22
+                                    },
+                                    {
+                                        "offset": 15,
+                                        "samples": 59,
+                                        "max": 21.8999996185
+                                    },
+                                    {
+                                        "offset": 16,
+                                        "samples": 58,
+                                        "max": 21.8999996185
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "id": "k2s0323",
+                "isPattern": false,
+                "type": "AirQualityObserved"
+            },
+            "statusCode": {
+                "code": "200",
+                "reasonPhrase": "OK"
+            }
+        }
+    ]
+}

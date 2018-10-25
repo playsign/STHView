@@ -18,7 +18,6 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-
 var tempprobe_line = d3.line()
     .x( function(d) { return x(d.timestamp); })
     .y( function(d) { return y(d.tempprobe); });
@@ -53,16 +52,12 @@ var svg = d3.select("body").append("svg")
             "translate(" + margin.left + "," + margin.top + ")");
 
 
-function draw(data, tempdata) {
-
-    var data = data[tempdata];
-
+function drawRaw(vals) {
+    var data = vals;
     data.forEach(function(d, i) {
-
         d.timestamp = parseDate(d.recvTime);
         d.tempprobe = +d.attrValue;
         //d.ambient = +1 //d.ambient;
-
     });
 
     console.log(data);
@@ -124,40 +119,111 @@ function draw(data, tempdata) {
         .call(d3.axisLeft(y));
 }
 
+function drawAggr(vals) {
+    var data = vals[0]["points"];
+
+    data.forEach(function(d, i) {
+        d.timestamp = d.offset;
+        d.tempprobe = d.max;
+    });
+
+    console.log(data);
+
+    data.sort(function(a, b){
+        return a["timestamp"]-b["timestamp"];
+    });
+
+    // scale the range of data
+    x.domain(d3.extent(data, function(d){
+        return d.timestamp;
+    }));
+    yExtent = d3.extent(data, function(d) { return d.tempprobe; }),
+                yRange = yExtent[1] - yExtent[0];
+    // set domain to be extent +- 5%
+    y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);
+
+    //clear drawing in case there was previous. NOTE: might be interesting to draw multiple for comparisons somehow
+    svg.selectAll("*").remove();
+
+    // Add the tempprobe path.
+    svg.append("path")
+        .data([data])
+        .attr("class", "line temp-probe temperature")
+        .attr("d", tempprobe_line);
+
+    // add the X Axis
+    svg.append("g")
+        .attr("transform", "translate(0,"+ height + ")")
+        .call(d3.axisBottom(x));
+
+    // add the Y Axis
+    svg.append("g")
+        .call(d3.axisLeft(y));
+}
+
+queryHandler = {
+    "raw": [
+        function(roomCode, dataType, start_string, end_string) {
+            var url = "https://playsign-151522.appspot.com/sth?";
+            url += `id=${roomCode}`;
+            url += `&datatype=${dataType}`;
+            if (start_string) {
+                url += `&dateFrom=${start_string}&dateTo=${end_string}`;
+            }
+            console.log(url);
+            return url;
+        }, 
+        drawRaw
+    ],
+    "aggr": [
+        function() {
+            return "weektemp.json";
+        },
+        drawAggr
+    ]
+}
+
 function updateDataView(start_date, end_date) {
     //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
-    var url = "https://playsign-151522.appspot.com/sth?"; //we append params here
 
-    var id = "202"; //tk03_te23";
-    var playsignParams = new URLSearchParams(location.search.slice(1));
-    var playsignRoomCode = playsignParams.get("roomcode");
-    if (playsignRoomCode)
-        id = playsignRoomCode;
-    url += `id=${id}`;
+    var roomCode = "202"; //tk03_te23";
+    var urlParams = new URLSearchParams(location.search.slice(1));
+    var urlRoomCode = urlParams.get("roomcode");
+    if (urlRoomCode)
+        roomCode = urlRoomCode;
+
+    var queryType = "raw";
+    var urlQueryType = urlParams.get("querytype");
+    if (urlQueryType)
+        queryType = urlQueryType;
 
     var dataType = "t";
-    var playsignDataType = playsignParams.get("datatype");
-    if (playsignDataType)
-        dataType = playsignDataType;
-    url += `&datatype=${dataType}`;
+    var urlDataType = urlParams.get("datatype");
+    if (urlDataType)
+        dataType = urlDataType;
 
     if (start_date) {
         var start_string = start_date.toISOString();
         var end_string = end_date.toISOString();
-
-        url += `&dateFrom=${start_string}&dateTo=${end_string}`
     }
 
+    handler = queryHandler[queryType];
+    url = handler[0](roomCode, dataType, start_string, end_string);
+    draw = handler[1];
+
+    console.log("STH request: " + url);
     //d3.json("tk2_k2s0323.json",
     //d3.json("http://pan0107.panoulu.net:8666/STH/v1/contextEntities/type/AirQualityObserved/id/k2s0323/attributes/tk03_te23?lastN=10",
-    //d3.json("https://playsign-151522.appspot.com/sth?id=weather",
+    //d3.json("weektemp.json",
     d3.json(url,
         function(error, data) {
             if (error) {
                 console.log("an error has occurred in d3 JSON");
                 throw error;
             }
-            draw(data["contextResponses"][0]["contextElement"]["attributes"][0], "values");
+            var vals = data["contextResponses"][0]["contextElement"]["attributes"][0]["values"];
+            //debugger;
+            draw(vals);
         });
         //}).header('Fiware-Service', 'tal').header('Fiware-ServicePath', '/f/2/202');
 }
@@ -181,4 +247,4 @@ gettime.addEventListener("click", function() {
     //console.log()
 })
 
-updateDataView(); //playsignRoomName);
+updateDataView();
