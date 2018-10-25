@@ -120,16 +120,16 @@ function drawRaw(vals) {
 }
 
 function drawAggr(vals) {
-    const data1 = vals[0]["points"];
-    const data2 = vals[1]["points"];
-    const data = data1.concat(data2);
+    //const data = vals["points"]; //tested also with multiple calls, one per day
+    const data = vals[0]["points"];
+
+    //queries seem to handle timezones ok now but we need this for display
+    const hourOffset = new Date().getTimezoneOffset() / 60;
 
     data.forEach(function(d, i) {
-        d.timestamp = d.offset;
-        if (i > 24)
-            d.timestamp += 24;
+        d.timestamp = d.offset - hourOffset;
         d.tempprobe = d.max;
-        d.ambient = 21.20 + (i / 24);
+        d.ambient = 21.40 + (i / 24);
     });
 
     console.log(data);
@@ -185,6 +185,11 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     console.log(url);
     return url;
 }
+
+/*function drawAggrTwoDays(vals) {
+    drawAggr(vals[0]);
+    drawAggr(vals[1]);
+}*/
 
 queryHandler = {
     "raw": [
@@ -265,16 +270,16 @@ function nowDate(dayOffset) {
 var start_date = document.getElementById("start_date");
 var end_date = document.getElementById("end_date");
 var today = nowDate(0);
-var yesterday = nowDate(-1);
-start_date.value = yesterday;
+//var yesterday = nowDate(-1);
+start_date.value = today; //yesterday;
 end_date.value = today;
 
-var start_time = document.getElementById("start_time");
-var end_time = document.getElementById("end_time");
-//start_time.value = "08:00"
-//end_time.value = "16:00"
-start_time.value = "00:00"
-end_time.value = "23:59"
+const start_time = document.getElementById("start_time");
+const end_time = document.getElementById("end_time");
+start_time.value = "08:00"
+end_time.value = "16:00"
+//start_time.value = "00:00"
+//end_time.value = "23:59"
 
 function dateFromInput(prefix) {
     var date = document.getElementById(prefix + "_date").value;
