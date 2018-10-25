@@ -128,7 +128,7 @@ function drawAggr(vals) {
     data.forEach(function(d, i) {
         d.timestamp = d.offset - hourOffset;
         d.tempprobe = d.max;
-        d.ambient = 21.40 + (i / 24);
+        //d.ambient = 21.40 + (i / 24);
     });
 
     console.log(data);
@@ -156,10 +156,10 @@ function drawAggr(vals) {
         .attr("d", tempprobe_line);
 
     // Add the ambient path
-    svg.append("path")
+    /*svg.append("path")
         .data([data])
         .attr("class", "line ambient temperature")
-        .attr("d", ambient_line);
+        .attr("d", ambient_line);*/
 
     // add the X Axis
     const format = d3.format(",.0d");
@@ -217,7 +217,7 @@ function updateDataView(start_date, end_date) {
     if (urlRoomCode)
         roomCode = urlRoomCode;
 
-    var queryType = "raw";
+    var queryType = "aggr";
     var urlQueryType = urlParams.get("querytype");
     if (urlQueryType)
         queryType = urlQueryType;
