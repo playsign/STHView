@@ -34,7 +34,6 @@ var low_threshold_line = d3.line()
         return y(d.threshold_low);
     })
 
-
 var ambient_line = d3.line()
     .x(function(d)
         { return x(d.timestamp);}
@@ -163,10 +162,11 @@ function drawAggr(vals) {
         .attr("d", ambient_line);
 
     // add the X Axis
+    const format = d3.format(",.0d");
     svg.append("g")
         .attr("transform", "translate(0,"+ height + ")")
         .call(d3.axisBottom(x)
-                .tickFormat(d3.format(",.0f"))
+                .tickFormat(d => format(d) + ":00")
                 );
 
     // add the Y Axis
