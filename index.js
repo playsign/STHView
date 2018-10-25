@@ -162,8 +162,8 @@ function drawAggr(vals) {
 }
 
 function makeUrl(roomCode, dataType, start_string, end_string) {
-    var url = "http://localhost:8080/sth?";
-    //var url = "https://playsign-151522.appspot.com/sth?";
+    //var url = "http://localhost:8080/sth?";
+    var url = "https://playsign-151522.appspot.com/sth?";
     url += `id=${roomCode}`;
     url += `&datatype=${dataType}`;
     if (start_string) {
