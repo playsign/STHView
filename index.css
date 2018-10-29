@@ -56,6 +56,9 @@ table {
 .temp-probe {
   stroke: blue;
 }
+.temp-compare {
+    stroke: red;
+}
 
 .ambient {
   stroke: #C790E3;
@@ -91,4 +94,22 @@ div.tooltip {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+}
+
+legend {
+    background-color: #000;
+    color: #fff;
+    padding: 3px 6px;
+}
+
+.output {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input {
+    margin: .4rem;
+}
+
+.wrapper {
+    display: flex;
 }

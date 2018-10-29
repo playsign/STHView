@@ -118,10 +118,7 @@ function drawRaw(vals) {
         .call(d3.axisLeft(y));
 }
 
-function drawAggr(vals) {
-    //const data = vals["points"]; //tested also with multiple calls, one per day
-    const data = vals[0]["points"];
-
+function prepareData(data) {
     //queries seem to handle timezones ok now but we need this for display
     const hourOffset = new Date().getTimezoneOffset() / 60;
 
@@ -135,8 +132,10 @@ function drawAggr(vals) {
 
     data.sort(function(a, b){
         return a["timestamp"]-b["timestamp"];
-    });
+    });  
+}
 
+function setExtents(data) {
     // scale the range of data
     x.domain(d3.extent(data, function(d){
         return d.timestamp;
@@ -144,23 +143,10 @@ function drawAggr(vals) {
     yExtent = d3.extent(data, function(d) { return d.tempprobe; }),
                 yRange = yExtent[1] - yExtent[0];
     // set domain to be extent +- 5%
-    y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);
+    y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);    
+}
 
-    //clear drawing in case there was previous. NOTE: might be interesting to draw multiple for comparisons somehow
-    svg.selectAll("*").remove();
-
-    // Add the tempprobe path.
-    svg.append("path")
-        .data([data])
-        .attr("class", "line temp-probe temperature")
-        .attr("d", tempprobe_line);
-
-    // Add the ambient path
-    /*svg.append("path")
-        .data([data])
-        .attr("class", "line ambient temperature")
-        .attr("d", ambient_line);*/
-
+function addAxes() {
     // add the X Axis
     const format = d3.format(",.0d");
     svg.append("g")
@@ -171,7 +157,39 @@ function drawAggr(vals) {
 
     // add the Y Axis
     svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y));    
+}
+
+function addPaths(data, cssClass) {
+    // Add the tempprobe path.
+    svg.append("path")
+        .data([data])
+        .attr("class", cssClass)
+        .attr("d", tempprobe_line);
+
+    // Add the ambient path
+    /*svg.append("path")
+        .data([data])
+        .attr("class", "line ambient temperature")
+        .attr("d", ambient_line);*/
+}
+
+function drawAggr(vals) {
+    var data = vals[0]["points"];
+    prepareData(data);
+    setExtents(data);
+
+    svg.selectAll("*").remove();
+
+    addPaths(data, "line temp-probe temperature");
+    addAxes();
+}
+
+function addAggr(vals) {
+    var data = vals[0]["points"];
+    prepareData(data);
+    //oops this would result in wrong vis: setExtents(data);
+    addPaths(data, "line temp-compare temperature");
 }
 
 function makeUrl(roomCode, dataType, start_string, end_string) {
@@ -185,11 +203,6 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     console.log(url);
     return url;
 }
-
-/*function drawAggrTwoDays(vals) {
-    drawAggr(vals[0]);
-    drawAggr(vals[1]);
-}*/
 
 queryHandler = {
     "raw": [
@@ -208,9 +221,7 @@ queryHandler = {
     ]
 }
 
-function updateDataView(start_date, end_date) {
-    //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
-
+function getParams(start_date, end_date) {
     var roomCode = "202"; //tk03_te23";
     var urlParams = new URLSearchParams(location.search.slice(1));
     var urlRoomCode = urlParams.get("roomcode");
@@ -232,9 +243,25 @@ function updateDataView(start_date, end_date) {
         var end_string = end_date.toISOString();
     }
 
-    handler = queryHandler[queryType];
-    url = handler[0](roomCode, dataType, start_string, end_string);
-    draw = handler[1];
+    return {
+        roomCode: roomCode,
+        queryType: queryType,
+        dataType: dataType,
+        start_date: start_date,
+        end_date: end_date,
+        start_string: start_string,
+        end_string: end_string
+    }
+}
+
+function updateDataView(start_date, end_date, draw) {
+    //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
+
+    params = getParams(start_date, end_date);
+    handler = queryHandler[params.queryType];
+    const url = handler[0](params.roomCode, params.dataType, params.start_string, params.end_string);
+    if (!draw)
+        draw = handler[1];
 
     console.log("STH request: " + url);
     //d3.json("tk2_k2s0323.json",
@@ -250,10 +277,10 @@ function updateDataView(start_date, end_date) {
             //debugger;
             draw(vals);
         });
-        //}).header('Fiware-Service', 'tal').header('Fiware-ServicePath', '/f/2/202');
 }
 
 var gettime = document.getElementById("gettime")
+const day = 1000 * 60 * 60 * 24; //24h in milliseconds
 
 function nowDate(dayOffset) {
     var now = new Date();
@@ -294,6 +321,21 @@ function updateWithDateRange() {
     var end_date = dateFromInput("end");    
 
     updateDataView(start_date, end_date);
+}
+
+function updateCompare(el) {
+    const dayOffset = parseInt(el.value);
+    console.log("updateCompare: " + el.value);
+    //params = getParams(start_date, end_date);
+    //handler = queryHandler[params.queryType];
+    var start_date = dateFromInput("start");
+    var end_date = dateFromInput("end");
+
+    const offsetMs = dayOffset * day;
+    comp_start = new Date(start_date.getTime() - offsetMs);
+    comp_end = new Date(end_date.getTime() - offsetMs);
+
+    updateDataView(comp_start, comp_end, addAggr);;
 }
 
 gettime.addEventListener("click", updateWithDateRange);
