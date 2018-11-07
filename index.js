@@ -1,3 +1,9 @@
+const scaleForType = {
+    't': [12, 30],
+    'c': [0, 3000],
+    'v': [0, 500],
+    'h': [0, 100]
+}
 
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
@@ -135,7 +141,7 @@ function prepareData(data) {
     });  
 }
 
-function setExtents(data, endHour) {
+function setScales(data, endHour, dataType) {
     // scale the range of data
     xExtent = d3.extent(data, function(d){
         return d.timestamp;
@@ -147,7 +153,7 @@ function setExtents(data, endHour) {
                 yRange = yExtent[1] - yExtent[0];
     // set domain to be extent +- 5%
     y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);*/
-    y.domain([12, 30]); //temperature expedted minimum & maximum + margins
+    y.domain(scaleForType[dataType]); //temperature expedted minimum & maximum + margins
 }
 
 function addAxes() {
@@ -178,10 +184,9 @@ function addPaths(data, cssClass) {
         .attr("d", ambient_line);*/
 }
 
-function drawAggr(vals, endHour) {
-    var data = vals[0]["points"];
-    prepareData(data);
-    setExtents(data, endHour);
+function drawAggr(data) { //vals) {
+    //var data = vals[0]["points"];
+    //prepareData(data);
     
     svg.selectAll("*").remove();
 
@@ -189,11 +194,11 @@ function drawAggr(vals, endHour) {
     addAxes();
 }
 
-function addAggr(vals, endHour) {
-    var data = vals[0]["points"];
-    prepareData(data);
+function addAggr(data) { //vals) {
+    //var data = vals[0]["points"];
+    //prepareData(data);
     //oops this would result in wrong vis: setExtents(data);
-    //now drawAggrs has already set fixed scale with setExtents
+    //now earlier UpdateDataView has already set the scales
     addPaths(data, "line temp-compare temperature");
 }
 
@@ -259,7 +264,7 @@ function getParams(start_date, end_date) {
     }
 }
 
-function updateDataView(start_date, end_date, draw) {
+function updateDataView(start_date, end_date, updateScales, draw) {
     //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
 
     params = getParams(start_date, end_date);
@@ -281,8 +286,15 @@ function updateDataView(start_date, end_date, draw) {
                 throw error;
             }
             var vals = data["contextResponses"][0]["contextElement"]["attributes"][0]["values"];
-            //debugger;
-            draw(vals, endHour);
+
+            var points = vals[0]["points"]; //aggr only, breaks raw, we are not using that now anyhow - fix later? XXX TODO
+            //also aggr specific
+            prepareData(points);
+            
+            if (updateScales) {
+                setScales(points, endHour, params.dataType);
+            }
+            draw(points);
         });
 }
 
@@ -327,7 +339,7 @@ function updateWithDateRange() {
     var start_date = dateFromInput("start");
     var end_date = dateFromInput("end");    
 
-    updateDataView(start_date, end_date);
+    updateDataView(start_date, end_date, true);
 }
 
 function updateCompare(el) {
@@ -342,7 +354,7 @@ function updateCompare(el) {
     comp_start = new Date(start_date.getTime() - offsetMs);
     comp_end = new Date(end_date.getTime() - offsetMs);
 
-    updateDataView(comp_start, comp_end, addAggr);;
+    updateDataView(comp_start, comp_end, false, addAggr);;
 }
 
 gettime.addEventListener("click", updateWithDateRange);
