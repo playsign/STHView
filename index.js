@@ -135,15 +135,19 @@ function prepareData(data) {
     });  
 }
 
-function setExtents(data) {
+function setExtents(data, endHour) {
     // scale the range of data
-    x.domain(d3.extent(data, function(d){
+    xExtent = d3.extent(data, function(d){
         return d.timestamp;
-    }));
+    });
+    xExtent[1] = Math.max(xExtent[1], 16, endHour); //we want to continue at least till 4pm for prev day comparison to make sense
+    x.domain(xExtent);
+    /* now fixed for data type (only temperature, wip)
     yExtent = d3.extent(data, function(d) { return d.tempprobe; }),
                 yRange = yExtent[1] - yExtent[0];
     // set domain to be extent +- 5%
-    y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);    
+    y.domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);*/
+    y.domain([12, 30]); //temperature expedted minimum & maximum + margins
 }
 
 function addAxes() {
@@ -174,21 +178,22 @@ function addPaths(data, cssClass) {
         .attr("d", ambient_line);*/
 }
 
-function drawAggr(vals) {
+function drawAggr(vals, endHour) {
     var data = vals[0]["points"];
     prepareData(data);
-    setExtents(data);
-
+    setExtents(data, endHour);
+    
     svg.selectAll("*").remove();
 
     addPaths(data, "line temp-probe temperature");
     addAxes();
 }
 
-function addAggr(vals) {
+function addAggr(vals, endHour) {
     var data = vals[0]["points"];
     prepareData(data);
     //oops this would result in wrong vis: setExtents(data);
+    //now drawAggrs has already set fixed scale with setExtents
     addPaths(data, "line temp-compare temperature");
 }
 
@@ -263,6 +268,8 @@ function updateDataView(start_date, end_date, draw) {
     if (!draw)
         draw = handler[1];
 
+    const endHour = end_date.getHours();
+
     console.log("STH request: " + url);
     //d3.json("tk2_k2s0323.json",
     //d3.json("http://pan0107.panoulu.net:8666/STH/v1/contextEntities/type/AirQualityObserved/id/k2s0323/attributes/tk03_te23?lastN=10",
@@ -275,7 +282,7 @@ function updateDataView(start_date, end_date, draw) {
             }
             var vals = data["contextResponses"][0]["contextElement"]["attributes"][0]["values"];
             //debugger;
-            draw(vals);
+            draw(vals, endHour);
         });
 }
 
