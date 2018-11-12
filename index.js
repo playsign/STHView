@@ -2,7 +2,8 @@ const scaleForType = {
     't': [12, 30],
     'c': [0, 3000],
     'v': [0, 500],
-    'h': [0, 100]
+    'h': [0, 100],
+    's': [0, 100]
 }
 
 // set the dimensions and margins of the graph
@@ -290,7 +291,7 @@ function updateDataView(start_date, end_date, updateScales, draw) {
             var points = vals[0]["points"]; //aggr only, breaks raw, we are not using that now anyhow - fix later? XXX TODO
             //also aggr specific
             prepareData(points);
-            
+
             if (updateScales) {
                 setScales(points, endHour, params.dataType);
             }
