@@ -8,16 +8,17 @@ const scaleForType = {
     'peak': [0, 100]    
 }
 
+// parse the date / time
+var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
+//var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
+var formatTime = d3.timeFormat("%e %B");
+//console.log(parseDate("2018-09-05T05:27:54.212Z")); //2017-09-11 18:35:10"))
+
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-// parse the date / time
-var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
-//var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
-var formatTime = d3.timeFormat("%e %B");
-console.log(parseDate("2018-09-05T05:27:54.212Z")); //2017-09-11 18:35:10"))
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
@@ -234,6 +235,21 @@ queryHandler = {
     ]
 }
 
+//https://stackoverflow.com/questions/24281937/update-parameters-in-url-with-history-pushstate
+function setQueryStringParameter(name, value) {
+    const params = new URLSearchParams(location.search);
+    params.set(name, value);
+    window.history.pushState({}, "", decodeURIComponent(`${location.pathname}?${params}`));
+}
+
+function changeSpaceHandler(event) {
+    // You can use “this” to refer to the selected element.
+    //if(!event.target.value) alert('Please Select One');
+    //else alert('You like ' + event.target.value + ' ice cream.'); 
+    setQueryStringParameter("roomcode", event.target.value);
+    updateWithDateRange();
+}
+
 function getParams(start_date, end_date) {
     var roomCode = "202"; //tk03_te23";
     var urlParams = new URLSearchParams(location.search.slice(1));
@@ -300,6 +316,15 @@ function updateDataView(start_date, end_date, updateScales, draw) {
             draw(points);
         });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const spaceSelect = document.querySelector('select[name="space"]');
+    spaceSelect.onchange = changeSpaceHandler;
+    
+    const params = getParams();
+    spaceSelect.value = params.roomCode;    
+}, false);
+
 
 var gettime = document.getElementById("gettime")
 const day = 1000 * 60 * 60 * 24; //24h in milliseconds

@@ -9,6 +9,24 @@
 <body>
     <div class="wrapper">
             <div class="container">
+                <legend>Selected space:</legend>
+                <select id="space" name="space" />
+                    <option value="">---(space)---</option>
+                    <option>202</option>
+                    <option>225</option>
+                    <option>226</option>
+                </select>
+            </div>
+            <div class="container">
+                <legend>Data type:</legend>
+                <select id="datatype" name="datatype" />
+                    <option value="t">Temperature</option>
+                    <option value="c">Air quality</option>
+                    <option value="h">Humidity</option>
+                    <option value="v">VOC</option>
+                </select>
+            </div>
+            <div class="container">
                 <legend>Start and End times:</legend>
                 <input id="start_date" type="date" name="start_date" />
                 <input id="start_time" type="time" name="start_time" />
