@@ -242,12 +242,11 @@ function setQueryStringParameter(name, value) {
     window.history.pushState({}, "", decodeURIComponent(`${location.pathname}?${params}`));
 }
 
-function changeSpaceHandler(event) {
-    // You can use “this” to refer to the selected element.
-    //if(!event.target.value) alert('Please Select One');
-    //else alert('You like ' + event.target.value + ' ice cream.'); 
-    setQueryStringParameter("roomcode", event.target.value);
-    updateWithDateRange();
+function changeHandler(selectName) {
+    return function changeSpaceHandler(event) {
+        setQueryStringParameter(selectName, event.target.value);
+        updateWithDateRange();
+    }
 }
 
 function getParams(start_date, end_date) {
@@ -319,10 +318,14 @@ function updateDataView(start_date, end_date, updateScales, draw) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const spaceSelect = document.querySelector('select[name="space"]');
-    spaceSelect.onchange = changeSpaceHandler;
+    spaceSelect.onchange = changeHandler("roomcode");
     
+    const typeSelect = document.querySelector('select[name="datatype"]');
+    typeSelect.onchange = changeHandler("datatype");
+
     const params = getParams();
-    spaceSelect.value = params.roomCode;    
+    spaceSelect.value = params.roomCode;
+    typeSelect.value = params.dataType;    
 }, false);
 
 
