@@ -3,7 +3,9 @@ const scaleForType = {
     'c': [0, 3000],
     'v': [0, 500],
     'h': [0, 100],
-    's': [0, 100]
+    's': [0, 100],
+    'eq': [0, 100],
+    'peak': [0, 100]    
 }
 
 // set the dimensions and margins of the graph
