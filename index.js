@@ -237,7 +237,7 @@ queryHandler = {
 
 //https://stackoverflow.com/questions/24281937/update-parameters-in-url-with-history-pushstate
 function setQueryStringParameter(name, value) {
-    const params = new URLSearchParams(location.search);
+    const params = new URLSearchParams(location.search); //how does this work inside iframe? uses document.location which is correct?
     params.set(name, value);
     window.history.pushState({}, "", decodeURIComponent(`${location.pathname}?${params}`));
 }
@@ -262,7 +262,7 @@ function getParams(start_date, end_date) {
     var roomCode = "202"; //tk03_te23";
 
     var querystring;
-    if (!inIframe()) {
+    if (!inIframe()) { //is this really necessary? seemed to fix the bug? but how does setQueryStringParameter work without this, with just 'location'?
         querystring = location.search;
     } else {
         querystring = document.location.search;
