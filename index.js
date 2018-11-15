@@ -249,9 +249,26 @@ function changeHandler(selectName) {
     }
 }
 
+//https://stackoverflow.com/questions/326069/how-to-identify-if-a-webpage-is-being-loaded-inside-an-iframe-or-directly-into-t
+function inIframe() {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
 function getParams(start_date, end_date) {
     var roomCode = "202"; //tk03_te23";
-    var urlParams = new URLSearchParams(location.search.slice(1));
+
+    var querystring;
+    if (!inIframe()) {
+        querystring = location.search;
+    } else {
+        querystring = document.location.search;
+    }
+
+    var urlParams = new URLSearchParams(querystring.slice(1));
     var urlRoomCode = urlParams.get("roomcode");
     if (urlRoomCode)
         roomCode = urlRoomCode;
