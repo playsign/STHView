@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const params = getParams();
     spaceSelect.value = params.roomCode;
-    typeSelect.value = params.dataType;    
+    typeSelect.value = params.dataType;
 }, false);
 
 
