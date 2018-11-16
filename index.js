@@ -211,9 +211,11 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     var url = "https://playsign-151522.appspot.com/sth?";
     url += `id=${roomCode}`;
     url += `&datatype=${dataType}`;
-    if (start_string) {
-        url += `&dateFrom=${start_string}&dateTo=${end_string}`;
-    }
+    
+    //omitting time def not supported anymore
+    //if (start_string) {
+    url += `&dateFrom=${start_string}&dateTo=${end_string}`;
+    
     console.log(url);
     return url;
 }
@@ -283,10 +285,29 @@ function getParams(start_date, end_date) {
     if (urlDataType)
         dataType = urlDataType;
 
-    if (start_date) {
-        var start_string = start_date.toISOString();
-        var end_string = end_date.toISOString();
+    if (!start_date) { //override for previous day comparison   
+        var urlStartDate = urlParams.get("dateFrom");
+        if (urlStartDate) {
+            start_date = new Date(urlStartDate);
+        } else {
+            start_date = new Date();
+            start_date.setHours(8);
+            start_date.setMinutes(0);
+        }
     }
+    var start_string = start_date.toISOString(); //UTC and passed as such to the STH server query
+
+    if (!end_date) {    
+        var urlEndDate = urlParams.get("dateTo");
+        if (urlEndDate) {
+            end_date = new Date(urlEndDate);
+        } else {
+            end_date = new Date();
+            end_date.setHours(16);
+            end_date.setMinutes(0);
+        }
+    }
+    var end_string = end_date.toISOString();
 
     return {
         roomCode: roomCode,
@@ -343,37 +364,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const params = getParams();
     spaceSelect.value = params.roomCode;
     typeSelect.value = params.dataType;
+
+    /*
+    getParams sets also the default values for time, if they are not given in URL.
+    here we apply those values to the calendar UI, similar to how space & type are set above
+    */
+    const start_date_input = document.getElementById("start_date");
+    const end_date_input = document.getElementById("end_date");
+
+    //https://stackoverflow.com/questions/12346381/set-date-in-input-type-date
+    const startAsLocal = dateToISOLikeButLocal(params.start_date);
+    const startpair = startAsLocal.split('T');
+
+    const endAsLocal = dateToISOLikeButLocal(params.end_date);
+    const endpair = endAsLocal.split('T');
+    start_date_input.value = startpair[0];
+    end_date_input.value = endpair[0];
+
+    const start_time_input = document.getElementById("start_time");
+    const end_time_input = document.getElementById("end_time");
+    start_time_input.value = startpair[1].substr(0, 5); //"08:00"
+    end_time_input.value = endpair[1].substr(0, 5); //"16:00"
+
+    updateWithDateRange();
 }, false);
-
-
-var gettime = document.getElementById("gettime")
-const day = 1000 * 60 * 60 * 24; //24h in milliseconds
-
-function nowDate(dayOffset) {
-    var now = new Date();
-    var daynum = now.getDate();
-    now.setDate(daynum + dayOffset);
- 
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-    var today = now.getFullYear()+"-"+(month)+"-"+(day);
-    return today;
-}
-
-var start_date = document.getElementById("start_date");
-var end_date = document.getElementById("end_date");
-var today = nowDate(0);
-//var yesterday = nowDate(-1);
-start_date.value = today; //yesterday;
-end_date.value = today;
-
-const start_time = document.getElementById("start_time");
-const end_time = document.getElementById("end_time");
-start_time.value = "08:00"
-end_time.value = "16:00"
-//start_time.value = "00:00"
-//end_time.value = "23:59"
 
 function dateFromInput(prefix) {
     var date = document.getElementById(prefix + "_date").value;
@@ -383,14 +397,28 @@ function dateFromInput(prefix) {
     return datetime;
 }
 
+function dateToISOLikeButLocal(date) {
+    const offsetMs = date.getTimezoneOffset() * 60 * 1000;
+    const msLocal =  date.getTime() - offsetMs;
+    const dateLocal = new Date(msLocal);
+    const iso = dateLocal.toISOString();
+    const isoLocal = iso.slice(0, 19);
+    return isoLocal;
+}
+
 function updateWithDateRange() {
     var start_date = dateFromInput("start");
-    var end_date = dateFromInput("end");    
+    var end_date = dateFromInput("end");
+
+    setQueryStringParameter("dateFrom", dateToISOLikeButLocal(start_date));
+    setQueryStringParameter("dateTo", dateToISOLikeButLocal(end_date));
 
     updateDataView(start_date, end_date, true);
 }
 
 function updateCompare(el) {
+    const day = 1000 * 60 * 60 * 24; //24h in milliseconds
+
     const dayOffset = parseInt(el.value);
     console.log("updateCompare: " + el.value);
     //params = getParams(start_date, end_date);
@@ -405,6 +433,5 @@ function updateCompare(el) {
     updateDataView(comp_start, comp_end, false, addAggr);;
 }
 
+const gettime = document.getElementById("gettime")
 gettime.addEventListener("click", updateWithDateRange);
-
-updateWithDateRange();
