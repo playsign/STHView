@@ -178,10 +178,10 @@ function drawAggr(data) { //vals) {
     addAxes();
 }
 
-function addAggr(data) { //vals) {
+/*function addAggr(data) { //vals) {
     //var data = vals[0]["points"];
     //prepareData(data);
     //oops this would result in wrong vis: setExtents(data);
     //now earlier UpdateDataView has already set the scales
     addPaths(data, "line temp-compare temperature");
-}
+}*/

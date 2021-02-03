@@ -6,30 +6,33 @@ var formatTime = d3.timeFormat("%e %B");
 
 function prepareData(data) {
     //queries seem to handle timezones ok now but we need this for display
-    const hourOffset = new Date().getTimezoneOffset() / 60;
+    //const hourOffset = new Date().getTimezoneOffset() / 60;
 
     data.forEach(function(d, i) {
-        d.timestamp = d.offset - hourOffset;
-        d.tempprobe = d.max;
+        //d.timestamp = d.offset - hourOffset;
+        d.timestamp = d.timestamp_EET //has also UTC_Timestamp
+        d.tempprobe = d.value;
         //d.ambient = 21.40 + (i / 24);
     });
 
     console.log(data);
 
-    data.sort(function(a, b){
+    /*data.sort(function(a, b){
         return a["timestamp"]-b["timestamp"];
-    });  
+    });*/  
 }
 
 function makeUrl(roomCode, dataType, start_string, end_string) {
-    //var url = "http://localhost:8080/sth?";
-    var url = "https://playsign-151522.appspot.com/sth?";
-    url += `id=${roomCode}`;
+    //var url = "https://playsign-151522.appspot.com/sth?";
+    //var url = "http://localhost:8080/h?";
+    var url = "http://localhost:8000/temp_data.json";
+
+    /*url += `id=${roomCode}`;
     url += `&datatype=${dataType}`;
     
     //omitting time def not supported anymore
     //if (start_string) {
-    url += `&dateFrom=${start_string}&dateTo=${end_string}`;
+    url += `&dateFrom=${start_string}&dateTo=${end_string}`;*/
     
     console.log(url);
     return url;
@@ -43,7 +46,7 @@ queryHandler = {
     "aggr": [
         function(roomCode, dataType, start_string, end_string) {
             var url = makeUrl(roomCode, dataType, start_string, end_string);
-            url += `&querytype=aggr`;
+            //url += `&querytype=aggr`;
             //maybe we should have the comet params here, and not this self invented one that is passed to the proxy
             //the backend / proxy does however helpful work in mapping the room codes to the sensor naming pattern
             return url;
@@ -156,16 +159,20 @@ function updateDataView(start_date, end_date, updateScales, draw) {
                 console.log("an error has occurred in d3 JSON");
                 throw error;
             }
-            var vals = data["contextResponses"][0]["contextElement"]["attributes"][0]["values"];
-
-            var points = vals[0]["points"]; //aggr only, breaks raw, we are not using that now anyhow - fix later? XXX TODO
+            //FIWARE STH-COMET:
+            //var vals = data["contextResponses"][0]["contextElement"]["attributes"][0]["values"];
+            //var vals = data; //root level list from ouka azure
+            var vals = data[0]; //original temp_data.json in d3 example
+            var points = vals["tempdata"]; //FIWARE: vals[0]["points"]; //aggr only, breaks raw, we are not using that now anyhow - fix later? XXX TODO
             //also aggr specific
-            prepareData(points);
+            //prepareData(points);
 
             if (updateScales) {
                 setScales(points, endHour, params.dataType);
             }
-            draw(points);
+            //draw(points);
+            console.log(points);
+            drawTextTable(points);
         });
 }
 
