@@ -26,14 +26,14 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     //var url = "https://playsign-151522.appspot.com/sth?";
     //var url = "http://localhost:8080/h?";
     //var url = "http://localhost:8000/temp_data.json";
-    var url = "http://localhost:8080/ouka/energydata";
+    var url = "http://localhost:8080/ouka/energydata?";
 
     /*url += `id=${roomCode}`;
-    url += `&datatype=${dataType}`;
+    url += `&datatype=${dataType}`;*/
     
     //omitting time def not supported anymore
     //if (start_string) {
-    url += `&dateFrom=${start_string}&dateTo=${end_string}`;*/
+    url += `&dateFrom=${start_string}&dateTo=${end_string}`;
     
     console.log(url);
     return url;
