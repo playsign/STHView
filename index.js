@@ -25,7 +25,8 @@ function prepareData(data) {
 function makeUrl(roomCode, dataType, start_string, end_string) {
     //var url = "https://playsign-151522.appspot.com/sth?";
     //var url = "http://localhost:8080/h?";
-    var url = "http://localhost:8000/temp_data.json";
+    //var url = "http://localhost:8000/temp_data.json";
+    var url = "http://localhost:8080/ouka/energydata";
 
     /*url += `id=${roomCode}`;
     url += `&datatype=${dataType}`;
@@ -161,9 +162,10 @@ function updateDataView(start_date, end_date, updateScales, draw) {
             }
             //FIWARE STH-COMET:
             //var vals = data["contextResponses"][0]["contextElement"]["attributes"][0]["values"];
-            //var vals = data; //root level list from ouka azure
-            var vals = data[0]; //original temp_data.json in d3 example
-            var points = vals["tempdata"]; //FIWARE: vals[0]["points"]; //aggr only, breaks raw, we are not using that now anyhow - fix later? XXX TODO
+            //var vals = data[0]; //original temp_data.json in d3 example
+            var points = data; //root level list from ouka azure
+            //debugger
+            //var points = vals["tempdata"]; //FIWARE: vals[0]["points"]; //aggr only, breaks raw, we are not using that now anyhow - fix later? XXX TODO
             //also aggr specific
             //prepareData(points);
 

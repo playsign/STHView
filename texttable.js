@@ -9,8 +9,9 @@ function drawTextTable(points)
         var newCell = newRow.insertCell();
 
         // Append a text node to the cell
-        var t = element.timestamp + " : " + element.tempprobe;
-        var newText = document.createTextNode(t);
+        //var text = element.timestamp + " : " + element.tempprobe;
+        var text = element.timestamp_EET + " : " + element.value;        
+        var newText = document.createTextNode(text);
         newCell.appendChild(newText);
     });
 }
