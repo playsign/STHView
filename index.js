@@ -28,8 +28,8 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     //var url = "http://localhost:8000/temp_data.json";
     var url = "http://localhost:8080/ouka/energydata?";
 
-    /*url += `id=${roomCode}`;
-    url += `&datatype=${dataType}`;*/
+    /*url += `id=${roomCode}`;*/
+    url += `&quantity=${dataType}`; // ouka energy has quantityName
     
     //omitting time def not supported anymore
     //if (start_string) {
@@ -169,9 +169,9 @@ function updateDataView(start_date, end_date, updateScales, draw) {
             //also aggr specific
             //prepareData(points);
 
-            if (updateScales) {
+            /*if (updateScales) {
                 setScales(points, endHour, params.dataType);
-            }
+            }*/
             //draw(points);
             console.log(points);
             drawTextTable(points);
