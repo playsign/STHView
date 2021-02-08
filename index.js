@@ -184,7 +184,7 @@ function updateDataView(start_date, end_date, updateScales, draw) {
             }*/
             //draw(points);
             console.log(points);
-            drawTextTable(points);
+            drawTextTable(params.dataType, points);
         });
 }
 

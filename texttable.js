@@ -1,18 +1,30 @@
-function drawTextTable(points)
+datatype2unit = {
+    "Electricity": "kWh",
+    "DistrictHeating": "kWh",
+    "DistrictHeatingWater": "kWh",
+    "Water": "l"
+};
+
+function drawTextTable(datatype, points)
 {
     const datatable = document.getElementById("datatable");
     const tbodyRef = datatable;
     tbodyRef.innerHTML = "";
 
+    //TODO: datatype otsikkoon, html-puolella on jo optionseissa suomennettu
+
     //could make a reusable func for creating these rows, here and in loop, but they may yet get different styles and logic so leaving like this now for further dev. maybe refactor after more features are in.
     const titleRow = tbodyRef.insertRow();        
     const titleCell1 = titleRow.insertCell();
     const titleCell2 = titleRow.insertCell();
+    
     const titleText1 = document.createTextNode("Kuukausi");
-    const titleText2 = document.createTextNode("Kulutus");
+    const unitText = `Kulutus (${datatype2unit[datatype]})`;
+    const titleText2 = document.createTextNode(unitText);
+    
     titleCell1.appendChild(titleText1);
     titleCell2.appendChild(titleText2);
-
+ 
     points.forEach(element => {
         //console.log(element);
 
@@ -29,7 +41,9 @@ function drawTextTable(points)
         //debugger
         const newText1 = document.createTextNode(element.Month);
         const newText2 = document.createTextNode(element.value);
+ 
         newCell1.appendChild(newText1);
         newCell2.appendChild(newText2);
+        newCell2.className = "datavalue";
     });
 }

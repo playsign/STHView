@@ -55,6 +55,9 @@ td {
     border-style: ridge;
 }
 
+.datavalue {
+    text-align: right;
+}
 
 .temperature {
   fill: none;
