@@ -80,7 +80,7 @@ function inIframe() {
 }
 
 function getParams(start_date, end_date) {
-    var roomCode = "202"; //tk03_te23";
+    var roomCode = "hiirihaukkatalo"; //"202"; //tk03_te23";
 
     var querystring;
     if (!inIframe()) { //is this really necessary? seemed to fix the bug? but how does setQueryStringParameter work without this, with just 'location'?
@@ -99,7 +99,7 @@ function getParams(start_date, end_date) {
     if (urlQueryType)
         queryType = urlQueryType;
 
-    var dataType = "t";
+    var dataType = "Electricity"; //"t";
     var urlDataType = urlParams.get("datatype");
     if (urlDataType)
         dataType = urlDataType;
@@ -109,9 +109,16 @@ function getParams(start_date, end_date) {
         if (urlStartDate) {
             start_date = new Date(urlStartDate);
         } else {
+            //NOW: monthly, a few months back
+            const monthMs = 2629800000;
+
+            const now = new Date();
+            const monthsAgo = new Date(now.getTime() - (6 * monthMs));
+            start_date = new Date(monthsAgo.getFullYear(), monthsAgo.getMonth(), 1);
+            /* WAS: current day since morning, for e.g. hourly realtime data at office/school
             start_date = new Date();
             start_date.setHours(8);
-            start_date.setMinutes(0);
+            start_date.setMinutes(0);*/
         }
     }
     var start_string = start_date.toISOString(); //UTC and passed as such to the STH server query
@@ -121,9 +128,12 @@ function getParams(start_date, end_date) {
         if (urlEndDate) {
             end_date = new Date(urlEndDate);
         } else {
+            //OuKa Energy has 2d delay, so this actually is correct to get latest monthly data
             end_date = new Date();
+            
+            /* WAS: end of work day, for e.g. hourly realtime data at office/school
             end_date.setHours(16);
-            end_date.setMinutes(0);
+            end_date.setMinutes(0);*/
         }
     }
     var end_string = end_date.toISOString();

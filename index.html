@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <title>STHView</title>
+
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
     <link rel="stylesheet" href="index.css" />
+
     <script src="https://d3js.org/d3.v4.js"></script>
 </head>
 <body>
@@ -11,18 +15,10 @@
             <div class="container">
                 <legend>Selected space:</legend>
                 <select id="space" name="space" />
-                    <option>202</option>
-                    <option value="202s">Oppimistori Melu</option>
-                    <option>205</option>
-                    <option>225</option>
-                    <option>226</option>
-                    <option>227</option>
-                    <option>228</option>
-                    <option>229</option>
-                    <option>230</option>
-                    <option>231</option>
-                    <option>232</option>
-                    <option>233</option>
+                    <option value="hiirihaukkatalo">Hiirihaukkatalo</option>
+                    <!--option>1</option>
+                    <option>2</option>
+                    <option>3</option-->
                 </select>
             </div>
             <div class="container">
@@ -42,7 +38,8 @@
                 <input id="end_date" type="date" name="end_date" />
                 <input id="end_time" type="time" name="time" />        
             </div>
-            <div class="container">                
+            <div class="container" style="text-decoration: line-through;">        
+
                 <legend>Compare with another day:</legend>
         
                 <div>

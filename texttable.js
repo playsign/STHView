@@ -1,20 +1,34 @@
 function drawTextTable(points)
 {
     const datatable = document.getElementById("datatable");
+    const tbodyRef = datatable;
+    tbodyRef.innerHTML = "";
+
+    //could make a reusable func for creating these rows, here and in loop, but they may yet get different styles and logic so leaving like this now for further dev. maybe refactor after more features are in.
+    const titleRow = tbodyRef.insertRow();        
+    const titleCell1 = titleRow.insertCell();
+    const titleCell2 = titleRow.insertCell();
+    const titleText1 = document.createTextNode("Kuukausi");
+    const titleText2 = document.createTextNode("Kulutus");
+    titleCell1.appendChild(titleText1);
+    titleCell2.appendChild(titleText2);
+
     points.forEach(element => {
         //console.log(element);
-        const tbodyRef = datatable;
 
-        var newRow = tbodyRef.insertRow();
+        const newRow = tbodyRef.insertRow();
         
-        var newCell1 = newRow.insertCell();
-        var newCell2 = newRow.insertCell();
+        const newCell1 = newRow.insertCell();
+        const newCell2 = newRow.insertCell();
 
         // Append a text node to the cell
         //var text = element.timestamp + " : " + element.tempprobe;
         //var text = element.timestamp_EET + " : " + element.value;        
-        var newText1 = document.createTextNode(element.timestamp_EET);
-        var newText2 = document.createTextNode(element.value);
+        //for hourly: 
+        //var newText1 = document.createTextNode(element.timestamp_EET);
+        //debugger
+        const newText1 = document.createTextNode(element.Month);
+        const newText2 = document.createTextNode(element.value);
         newCell1.appendChild(newText1);
         newCell2.appendChild(newText2);
     });
