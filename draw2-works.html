@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>STHView</title>
+
+    <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+    <link rel="stylesheet" href="index.css" />
+
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+            <div class="container">
+                <legend>Selected space:</legend>
+                <select id="space" name="space" />
+                    <option value="hiirihaukkatalo">Hiirihaukkatalo</option>
+                    <!--option>1</option>
+                    <option>2</option>
+                    <option>3</option-->
+                </select>
+            </div>
+            <div class="container">
+                <legend>Data type:</legend>
+                <select id="datatype" name="datatype" />
+                    <option value="Electricity">Sähkö</option>
+                    <option value="DistrictHeating">Kaukolämpöenergia</option>
+                    <option value="DistrictHeatingWater">Kaukolämpövesi</option>
+                    <option value="Water">Käyttövesi</option>
+                </select>
+            </div>
+            <div class="container">
+                <legend>Start and End times:</legend>
+                <input id="start_date" type="date" name="start_date" />
+                <input id="start_time" type="time" name="start_time" />
+                <br/>
+                <input id="end_date" type="date" name="end_date" />
+                <input id="end_time" type="time" name="time" />        
+            </div>
+            <div class="container" style="text-decoration: line-through;">        
+
+                <legend>Compare with another day:</legend>
+        
+                <div>
+                    <input type="radio" id="yesterday"
+                        name="compare" value="1" 
+                        onchange="updateCompare(this)" />
+                    <label for="yesterday">Previous day</label>
+                </div>
+        
+                <div>
+                    <input type="radio" id="lastweek"
+                        name="compare" value="7" 
+                        onchange="updateCompare(this)" />
+                    <label for="lastweek">Previous Week</label>
+                </div>
+            </div>
+            <div class="container">
+                <br/><br/><br/><br/>
+                <button id="gettime">Get Data</button>
+            </div>
+    </div>
+
+    <div id="my_dataviz"></div>
+
+    <div class="container">
+        <!-- p>HELLO PAGE</p-->
+        <table id="datatable"></table>
+    </div>
+
+    <p>
+        <script src="texttable.js"></script>
+        <script src="draw2-works.js"></script>
+    </p>
+</body>
+</html>
