@@ -11,15 +11,15 @@ function prepareData(data) {
     data.forEach(function(d, i) {
         //d.timestamp = d.offset - hourOffset;
         d.timestamp = d.timestamp_EET //has also UTC_Timestamp
-        d.tempprobe = d.value;
+        d.tempprobe = 0.5; //d.value;
         //d.ambient = 21.40 + (i / 24);
     });
 
     console.log(data);
 
-    /*data.sort(function(a, b){
+    data.sort(function(a, b){
         return a["timestamp"]-b["timestamp"];
-    });*/  
+    });
 }
 
 function makeUrl(roomCode, dataType, start_string, end_string) {
@@ -37,6 +37,23 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     
     console.log(url);
     return url;
+}
+
+queryHandler = {
+    "raw": [
+        makeUrl, 
+        drawRaw
+    ],
+    "aggr": [
+        function(roomCode, dataType, start_string, end_string) {
+            var url = makeUrl(roomCode, dataType, start_string, end_string);
+            //url += `&querytype=aggr`;
+            //maybe we should have the comet params here, and not this self invented one that is passed to the proxy
+            //the backend / proxy does however helpful work in mapping the room codes to the sensor naming pattern
+            return url;
+        },
+        drawAggr
+    ]
 }
 
 //https://stackoverflow.com/questions/24281937/update-parameters-in-url-with-history-pushstate
@@ -96,7 +113,7 @@ function getParams(start_date, end_date) {
             const monthMs = 2629800000;
 
             const now = new Date();
-            const monthsAgo = new Date(now.getTime() - (12 * monthMs));
+            const monthsAgo = new Date(now.getTime() - (6 * monthMs));
             start_date = new Date(monthsAgo.getFullYear(), monthsAgo.getMonth(), 1);
             /* WAS: current day since morning, for e.g. hourly realtime data at office/school
             start_date = new Date();
@@ -132,11 +149,15 @@ function getParams(start_date, end_date) {
     }
 }
 
-function updateDataView(start_date, end_date, updateScales) {
+function updateDataView(start_date, end_date, updateScales, draw) {
     //dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-31T23:59:59.999Z
 
     params = getParams(start_date, end_date);
-    var url = makeUrl(params.roomCode, params.dataType, params.start_string, params.end_string);            
+    handler = queryHandler[params.queryType];
+    const url = handler[0](params.roomCode, params.dataType, params.start_string, params.end_string);
+    if (!draw)
+        draw = handler[1];
+
     const endHour = end_date.getHours();
 
     console.log("STH request: " + url);
@@ -158,19 +179,13 @@ function updateDataView(start_date, end_date, updateScales) {
             //also aggr specific
             //prepareData(points);
 
-            data.forEach(function(d, i) {
-                //d.timestamp = d.offset - hourOffset;
-                d.UTC_Timestamp = d.UTC_Timestamp //has also UTC_Timestamp
-                d.value = d.value;
-                //d.ambient = 21.40 + (i / 24);
-            });        
-
             /*if (updateScales) {
                 setScales(points, endHour, params.dataType);
             }*/
+            console.log(draw);
+            draw(points);
             //console.log(points);
-            drawGraph(points);
-            drawTextTable(params.dataType, points);
+            //drawTextTable(params.dataType, points);
         });
 }
 
