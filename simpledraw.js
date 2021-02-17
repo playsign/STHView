@@ -96,7 +96,7 @@ function getParams(start_date, end_date) {
             const monthMs = 2629800000;
 
             const now = new Date();
-            const monthsAgo = new Date(now.getTime() - (6 * monthMs));
+            const monthsAgo = new Date(now.getTime() - (12 * monthMs));
             start_date = new Date(monthsAgo.getFullYear(), monthsAgo.getMonth(), 1);
             /* WAS: current day since morning, for e.g. hourly realtime data at office/school
             start_date = new Date();

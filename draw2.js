@@ -22,6 +22,8 @@ var svg = d3.select("#my_dataviz")
         throw error;
     }*/
 function drawGraph(data) {
+  svg.selectAll("*").remove();
+
     data.forEach(function(d, i) {
       //d.timestamp = d.offset - hourOffset;
       d.date = d3.isoParse(d.UTC_Timestamp) //has also UTC_Timestamp
