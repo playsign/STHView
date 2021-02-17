@@ -26,7 +26,8 @@ function makeUrl(roomCode, dataType, start_string, end_string) {
     //var url = "https://playsign-151522.appspot.com/sth?";
     //var url = "http://localhost:8080/h?";
     //var url = "http://localhost:8000/temp_data.json";
-    var url = "http://localhost:8080/ouka/energydata?";
+    var url = "https://playsign-151522.appspot.com/ouka/energydata?";
+    //var url = "http://localhost:8080/ouka/energydata?";
 
     /*url += `id=${roomCode}`;*/
     url += `&quantity=${dataType}`; // ouka energy has quantityName
