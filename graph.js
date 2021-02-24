@@ -21,38 +21,86 @@ var svg = d3.select("#my_dataviz")
         console.log("an error has occurred in d3 JSON");
         throw error;
     }*/
-function drawGraph(data) {
+
+function graphSetup(data) {
   svg.selectAll("*").remove();
 
-    data.forEach(function(d, i) {
-      //d.timestamp = d.offset - hourOffset;
-      d.date = d3.isoParse(d.UTC_Timestamp) //has also UTC_Timestamp
-      d.value = d.value;
-    });
+  data.forEach(function(d, i) {
+    //d.timestamp = d.offset - hourOffset;
+    d.date = d3.isoParse(d.UTC_Timestamp) //has also UTC_Timestamp
+    d.value = d.value;
+  });
 
-    // Add X axis --> it is a date format
-    var x = d3.scaleTime()
-      .domain(d3.extent(data, function(d) { return d.date; }))
-      .range([ 0, width ]);
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, d3.max(data, function(d) { return +d.value; })])
+    .range([ height, 0 ]);
+  svg.append("g")
+    .call(d3.axisLeft(y));
 
-    // Add Y axis
-    var y = d3.scaleLinear()
-      .domain([0, d3.max(data, function(d) { return +d.value; })])
-      .range([ height, 0 ]);
-    svg.append("g")
-      .call(d3.axisLeft(y));
+  return y;
+}
 
-    // Add the line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.date) })
-        .y(function(d) { return y(d.value) })
-        )
+function drawGraph(data) {
+  const y = graphSetup(data);
+
+  // Add X axis --> it is a date format
+  var x = d3.scaleTime()
+    .domain(d3.extent(data, function(d) { return d.date; }))
+    .range([ 0, width ]);
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  // Add the line
+  svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 1.5)
+    .attr("d", d3.line()
+      .x(function(d) { return x(d.date) })
+      .y(function(d) { return y(d.value) })
+      )
+}
+
+function drawBarChart(data) {
+  const y = graphSetup(data);
+
+  const xBand = d3.scaleBand()
+    .range([ 0, width ])
+    .domain(data.map(function(d) { return d.date; }))
+    .padding(0.2);
+
+  /* tried to get the month names to x axis legend also for bars but failed so far - got month names, but then wrong bar widths / positioning
+  var x = d3.scaleTime()
+    .domain(d3.extent(data, function(d) { return d.date; }))
+    .range([ 0, width ]);*/
+
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
+
+  /*
+  // Add Y axis
+  const y = d3.scaleLinear()
+    .domain([0, 100000])
+    .range([ height, 0]);
+
+  svg.append("g")
+    .call(d3.axisLeft(y));*/
+
+  // Bars
+  svg.selectAll("mybar")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("x", function(d) { return xBand(d.date); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", xBand.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", "#69b3a2")
 }

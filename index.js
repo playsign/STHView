@@ -170,7 +170,8 @@ function updateDataView(start_date, end_date, updateScales) {
                 setScales(points, endHour, params.dataType);
             }*/
             //console.log(points);
-            drawGraph(points);
+            //drawGraph(points);
+            drawBarChart(points);
             drawTextTable(params.dataType, points);
         });
 }
