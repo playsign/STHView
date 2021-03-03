@@ -72,10 +72,10 @@ function drawBarChart(data) {
     .domain(data.map(function(d) { return d.date; }))
     .padding(0.2);
 
-  /* tried to get the month names to x axis legend also for bars but failed so far - got month names, but then wrong bar widths / positioning
+  //tried to get the month names to x axis legend also for bars but failed so far - got month names, but then wrong bar widths / positioning
   var x = d3.scaleTime()
     .domain(d3.extent(data, function(d) { return d.date; }))
-    .range([ 0, width ]);*/
+    .range([ 0, width ]);
 
   svg.append("g")
     .attr("transform", "translate(0," + height + ")")
