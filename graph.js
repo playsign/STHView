@@ -84,7 +84,7 @@ function drawBarChart(data) {
   */
   let n = data.length;
   tr_x = 140 - (n * 7);
-  wdiv = 1 + (1.7 / n)
+  wdiv = 1 + (1.2 / n)
 
   const xBand = d3.scaleBand()
     .range([ 0, width ])
@@ -117,7 +117,7 @@ function drawBarChart(data) {
     .data(data)
     .enter()
     .append("rect")
-      .attr("x", function(d) { return xBand(d.date); })
+      .attr("x", function(d) { return (width - xBand(d.date)) - xBand.bandwidth(); })
       .attr("y", function(d) { return y(d.value); })
       .attr("width", xBand.bandwidth())
       .attr("height", function(d) { return height - y(d.value); })
