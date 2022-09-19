@@ -122,4 +122,21 @@ function drawBarChart(data) {
       .attr("width", xBand.bandwidth())
       .attr("height", function(d) { return height - y(d.value); })
       .attr("fill", "#69b3a2")
+
+    svg.selectAll("mybar")
+    .data(data)
+    .enter()    
+    .append("text")
+      .attr("x", function(d) { 
+        return (width - (xBand(d.date) + (xBand.bandwidth() / 2)))
+      })
+      .attr("y", -3)
+      .attr("width", xBand.bandwidth())
+      .attr("fill", "#000000")
+      .text(function(d) {
+        //console.log(d.date);
+        let m = d.date.getMonth();
+        return m + 1;
+      })
+      .style("font-size", "12pt")
 }
